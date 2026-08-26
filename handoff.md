@@ -6,9 +6,9 @@
 
 - **Phase:** Final provenance and failure-classification hardening.
 - **Last completed work:** Production contract and frontend are deployed; fail-closed adjudication was verified; this pass adds evidence digest verification and retryable/integrity status classification without weakening consensus.
-- **StudioNet address:** `0xCEb6D327c7d4cDddA311a5D16ae933a2E2e9505b` (deployed before the final hashing guard).
+- **StudioNet address:** `0xcea527811266aEeb5F4B793B28A81ae8d256f5c7`.
 - **Frontend URL:** `https://repligraph.vercel.app`.
-- **Current source hash:** `ADEA144630EA5E652841CA3D45E31CD7757F6FF72DC6B114E86EED444A162F54`.
+- **Current source hash:** `49B391CF8E3FBB5F791E47AFE4E4D31A537BEDF1D7218DA7092898AB9FE3901E`; deployment tx `0x2eefe1936807b3500f7f32a3df04d37e88650e10fbe5bdefef8832b56db038b5`.
 - **Current unresolved item:** validate and redeploy the changed contract once, then run the clean distinct-study lifecycle. Existing StudioNet tracing is unavailable.
 
 ## Immediate implementation sequence

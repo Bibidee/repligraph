@@ -46,6 +46,7 @@ class RelationClaim:
     evidence_digest: str
     status: str
     final_relation: str
+    outcome_class: str
     rationale: str
     reviewed_at: u256
 
@@ -159,7 +160,7 @@ class RepliGraph(gl.Contract):
         self._require_digest(evidence_digest)
         self.claim_count += 1
         source = self.studies[source_study_id]; target = self.studies[target_study_id]
-        claim = RelationClaim(self.claim_count, source_study_id, target_study_id, source.version, target.version, str(gl.message.sender_address), claimed_relation, evidence_url, evidence_digest, "RELATION_CLAIMED", "", "", 0)
+        claim = RelationClaim(self.claim_count, source_study_id, target_study_id, source.version, target.version, str(gl.message.sender_address), claimed_relation, evidence_url, evidence_digest, "RELATION_CLAIMED", "", "", "", 0)
         self.claims[claim.claim_id] = claim
         return claim.claim_id
 
@@ -197,36 +198,36 @@ class RepliGraph(gl.Contract):
                 try:
                     response = gl.nondet.web.get(claim.evidence_url)
                 except Exception:
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "REVIEW_RETRYABLE: evidence retrieval failed."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Evidence retrieval failed."}
                 if response.status_code < 200 or response.status_code >= 300:
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "REVIEW_RETRYABLE: evidence returned a non-success HTTP status."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Evidence returned a non-success HTTP status."}
                 raw_body = response.body
                 if not isinstance(raw_body, (bytes, bytearray)):
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "EVIDENCE_INTEGRITY: response body was not raw bytes."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "EVIDENCE_INVALID", "reason": "Response body was not raw bytes."}
                 if len(raw_body) > MAX_TEXT:
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "EVIDENCE_INTEGRITY: evidence exceeds the maximum size."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "EVIDENCE_INVALID", "reason": "Evidence exceeds the maximum size."}
                 try:
                     actual_digest = hashlib.sha256(bytes(raw_body)).hexdigest()
                 except Exception:
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "REVIEW_RETRYABLE: evidence hashing failed."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Evidence hashing failed."}
                 if actual_digest != claim.evidence_digest.lower():
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "EVIDENCE_INTEGRITY: evidence digest mismatch."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "EVIDENCE_INVALID", "reason": "Evidence digest mismatch."}
                 try:
                     evidence_text = bytes(raw_body).decode("utf-8")
                 except Exception:
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "EVIDENCE_INTEGRITY: evidence was not valid UTF-8."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "EVIDENCE_INVALID", "reason": "Evidence was not valid UTF-8."}
                 if len(evidence_text.strip()) == 0:
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "EVIDENCE_INTEGRITY: evidence was empty."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "EVIDENCE_INVALID", "reason": "Evidence was empty."}
                 try:
                     prompt = self._decision_prompt(source, target, claim, neighbor_groups, evidence_text)
                 except Exception:
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "REVIEW_RETRYABLE: prompt construction failed."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Prompt construction failed."}
                 try:
                     return gl.nondet.exec_prompt(prompt, response_format="json")
                 except Exception:
-                    return {"decision": "INSUFFICIENT", "comparable": False, "reason": "REVIEW_RETRYABLE: semantic model evaluation failed."}
+                    return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Semantic model evaluation failed."}
             except Exception:
-                return {"decision": "INSUFFICIENT", "comparable": False, "reason": "REVIEW_RETRYABLE: nondeterministic evaluation failed."}
+                return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Nondeterministic evaluation failed."}
 
         def validate_relation(leader_result):
             if not isinstance(leader_result, gl.vm.Return):
@@ -235,28 +236,27 @@ class RepliGraph(gl.Contract):
             validator_data = evaluate_relation_once()
             if not isinstance(validator_data, dict):
                 return False
-            return validator_data.get("decision") == leader_data.get("decision") and validator_data.get("comparable") == leader_data.get("comparable")
+            return validator_data.get("decision") == leader_data.get("decision") and validator_data.get("comparable") == leader_data.get("comparable") and validator_data.get("outcome_class") == leader_data.get("outcome_class")
 
         result = gl.vm.run_nondet_unsafe(evaluate_relation_once, validate_relation)
         if not isinstance(result, dict): raise Exception("malformed consensus envelope")
-        if set(result.keys()) != {"decision", "comparable", "reason"}:
+        if set(result.keys()) != {"decision", "comparable", "outcome_class", "reason"}:
             raise Exception("malformed consensus envelope")
-        decision = result.get("decision"); comparable = result.get("comparable"); reason = result.get("reason")
+        decision = result.get("decision"); comparable = result.get("comparable"); outcome_class = result.get("outcome_class"); reason = result.get("reason")
         if not isinstance(comparable, bool):
             raise Exception("invalid consensus comparable flag")
+        if outcome_class not in ["DECISION", "SEMANTIC_INSUFFICIENT", "EVIDENCE_INVALID", "REVIEW_RETRYABLE"]:
+            raise Exception("invalid consensus outcome class")
         if decision not in ["DIRECT_REPLICATION", "MATERIAL_VARIANT", "EXTENSION", "CONTRADICTORY_RESULT", "INCOMPARABLE", "INSUFFICIENT"]: raise Exception("invalid consensus decision")
         if decision == "CONTRADICTORY_RESULT" and not comparable: decision = "INCOMPARABLE"
         if not isinstance(reason, str) or len(reason) > 600: raise Exception("invalid consensus reason")
-        claim.final_relation = decision; claim.rationale = reason; claim.reviewed_at = self._now()
-        if decision == "INSUFFICIENT":
-            if reason.startswith("EVIDENCE_INTEGRITY:"):
-                claim.status = "EVIDENCE_INVALID"
-            elif reason.startswith("REVIEW_RETRYABLE:"):
-                claim.status = "REVIEW_RETRYABLE"
-            else:
-                claim.status = "INSUFFICIENT"
+        claim.rationale = reason; claim.outcome_class = outcome_class; claim.reviewed_at = self._now()
+        if outcome_class != "DECISION":
+            claim.final_relation = ""
+            claim.status = "EVIDENCE_INVALID" if outcome_class == "EVIDENCE_INVALID" else "REVIEW_RETRYABLE" if outcome_class == "REVIEW_RETRYABLE" else "INSUFFICIENT"
             self.claims[claim_id] = claim
             return 0
+        claim.final_relation = decision
         self.edge_count += 1
         edge = Edge(self.edge_count, claim.claim_id, claim.source_id, claim.target_id, claim.source_version, claim.target_version, decision, reason, self._now())
         self.edges[edge.edge_id] = edge
@@ -278,6 +278,11 @@ class RepliGraph(gl.Contract):
     def get_relation(self, claim_id: u256):
         if claim_id not in self.claims: return None
         return self.claims[claim_id]
+
+    @gl.public.view
+    def get_edge(self, edge_id: u256):
+        if edge_id not in self.edges: return None
+        return self.edges[edge_id]
 
     @gl.public.view
     def list_edges(self, study_id: u256, offset: u256, limit: u256):

@@ -47,16 +47,18 @@ def test_consensus_prompt_separates_evidence_and_semantic_context():
     assert '"relation_rules"' in prompt
     assert "claimed_relation" in prompt
     assert "authoritative" not in prompt.split('"claimed_relation"', 1)[1].split('"evidence"', 1)[0]
+    assert '"outcome_class"' in source
 
 def test_evidence_digest_is_verified_before_decode_and_prompting():
     source = (Path(__file__).parents[2] / "contracts" / "repligraph.py").read_text(encoding="utf-8")
     adjudication = source[source.index("    def adjudicate_relation"):]
     assert "hashlib.sha256(bytes(raw_body)).hexdigest()" in adjudication
-    assert "EVIDENCE_INTEGRITY: evidence digest mismatch." in adjudication
+    assert '"outcome_class": "EVIDENCE_INVALID"' in adjudication
     assert adjudication.index("hashlib.sha256(bytes(raw_body)).hexdigest()") < adjudication.index("self._decision_prompt")
 
 def test_failure_classes_are_distinct_and_retryable_failures_can_retry():
     source = (Path(__file__).parents[2] / "contracts" / "repligraph.py").read_text(encoding="utf-8")
     assert 'claim.status = "EVIDENCE_INVALID"' in source
-    assert 'claim.status = "REVIEW_RETRYABLE"' in source
+    assert 'outcome_class == "REVIEW_RETRYABLE"' in source
     assert '"REVIEW_RETRYABLE"' in source[source.index("def adjudicate_relation"):]
+    assert 'def get_edge' in source
