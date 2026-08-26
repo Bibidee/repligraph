@@ -23,10 +23,10 @@ an immutable relation edge between two public study/protocol nodes
 
 ## CURRENT VERIFIED STATE
 
-- Repository HEAD: `a7f022c6ea55e232c2d9442593cbbe82ee8f0fdd` before this hardening change.
+- Repository HEAD: `bb0ec0de71425b115803fbd3913dbd81e2718827`.
 - Architecture: one GenLayer Intelligent Contract plus one directly hosted frontend; no backend or database.
-- Deployed contract: `0x08173965461f16baA3293e3bB46e540447E6CD80`.
-- Previous deployed source hash: `56B7CBD5ECDE225DEE146B5D02D8FAE305DADAD99C53205A622BE6A2C8148AB8`.
+- Deployed contract: `0xCEb6D327c7d4cDddA311a5D16ae933a2E2e9505b` (pre-final hash deployment).
+- Current source hash: `ADEA144630EA5E652841CA3D45E31CD7757F6FF72DC6B114E86EED444A162F54`; it requires deployment before release.
 - Production frontend: `https://repligraph.vercel.app`.
 - Existing fail-closed adjudication: claim `1`, adjudication tx `0xc43b46131110fddf43cdbfc77f3f0ac7c1f7be4c04a9363852e2d6d399be226d`, final status `INSUFFICIENT`, no edge.
 - This pass adds cryptographic evidence-body verification and distinguishes integrity failures from retryable retrieval/model failures. The new source hash is recorded after validation.
