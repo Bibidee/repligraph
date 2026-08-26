@@ -178,6 +178,6 @@ Historical pre-deployment checkpoint. It was superseded by the final deployment 
 
 Focused pre-deployment correction: `search_related` scope bug fixed and regression guards added. Frozen source hash: `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
 
-Final deployment completed on StudioNet: `0x9A32B51b9FA6B6f2Cdb9726B936D95Da6665dF5c`, tx `0xfd1a5d621477269647327ac1ca24069b845433bfd1ef2f2bd75362c1ba40fbdc`. Live checks confirmed studies 1 and 2, Study B versions 1 and 2, semantic search returning current v2 across QUESTION, METHOD, and CONCLUSION, claim 1 returning INSUFFICIENT on failed evidence fetch, and claim 2 also failing closed with edge return 0. Production frontend now points to this address at https://repligraph.vercel.app.
+Final deployment completed on StudioNet: `0x5fFF7fDB47Ba590b60535E5B2cC26FFD5D223E15`, tx `0x539a2d2e717c31bab2c87b7a86b0ea57be82656e2b9be83944df0dbc7351440d`. Production frontend now points to this address at https://repligraph.vercel.app.
 
 Accepted-path closure attempt: factual evidence was published at `https://repligraph.vercel.app/evidence/direct-replication.txt`. Claim 4 finalized, but adjudication also returned `0` and stored `INSUFFICIENT`. No `EDGE_ACCEPTED` result is recorded. This is preserved as fail-closed behavior, not presented as an accepted-edge proof.

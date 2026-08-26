@@ -32,6 +32,6 @@ Current release status: deployed and serving from StudioNet. Python integration 
 
 Pre-deployment correction at commit `c797825`: `search_related` now initializes its deduplication set in its own scope and the contract SHA-256 is `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
 
-Final StudioNet deployment: `0x9A32B51b9FA6B6f2Cdb9726B936D95Da6665dF5c`, deployment transaction `0xfd1a5d621477269647327ac1ca24069b845433bfd1ef2f2bd75362c1ba40fbdc`. The deployment receipt is FINALIZED with SUCCESS and the published source includes the versioned study, edge ID, and semantic deduplication fixes. Production is served at [repligraph.vercel.app](https://repligraph.vercel.app).
+Final StudioNet deployment: `0x5fFF7fDB47Ba590b60535E5B2cC26FFD5D223E15`, deployment transaction `0x539a2d2e717c31bab2c87b7a86b0ea57be82656e2b9be83944df0dbc7351440d`. The deployment receipt is FINALIZED with SUCCESS and the published source includes the structured consensus evidence fix. Production is served at [repligraph.vercel.app](https://repligraph.vercel.app).
 
 Final accepted-path proof status: pending. Claims using raw GitHub and production-hosted factual evidence both finalized fail-closed as `INSUFFICIENT`; no accepted edge is claimed without validator confirmation.
