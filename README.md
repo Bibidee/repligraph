@@ -26,4 +26,4 @@ npm run lint
 npm run build
 ```
 
-Verified StudioNet deployment: `0x7cd6075d0989F2b8640beeD28128BBBC828F3cE6` (tx `0x5e2851568ef1a13c178e925e6c395b2388d3b34b941a82b9dcff4d739914393e`). A live `register_study` write was also verified (tx `0x6cf1d79c87c64ca520c401ed0d748a19f20b69b9aa347063880bbbeeb829a720`).
+Verified StudioNet deployment: `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` (tx `0xb2724e214bc487224c8ab21afa8d3589a058088ce681f9b08efc21a8ca7d62b4`). A complete live workflow was verified: studies 1 and 2, semantic search, claim `1`, adjudication, and accepted `DIRECT_REPLICATION` edge.
