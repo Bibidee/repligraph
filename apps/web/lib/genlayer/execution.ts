@@ -1,0 +1,2 @@
+import {ExecutionResult} from 'genlayer-js/types';
+export function inspectExecution(receipt:any){const name=receipt?.txExecutionResultName;if(name===ExecutionResult.FINISHED_WITH_RETURN)return {ok:true as const,kind:'SUCCESS' as const};if(name===ExecutionResult.FINISHED_WITH_ERROR)return {ok:false as const,kind:'GENVM_ROLLBACK' as const};return {ok:false as const,kind:'CONSENSUS_PENDING' as const};}

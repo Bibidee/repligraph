@@ -1,0 +1,1 @@
+export const config={chainId:61999,endpoint:process.env.NEXT_PUBLIC_GENLAYER_ENDPOINT??'https://studio.genlayer.com/api',contractAddress:process.env.NEXT_PUBLIC_REPLIGRAPH_CONTRACT??'',mode:process.env.NEXT_PUBLIC_REPLIGRAPH_DATA??'live',explorer:'https://explorer-studio.genlayer.com'};
