@@ -1,8 +1,9 @@
 'use client';
 import {createContext,useContext,useEffect,useMemo,useState} from 'react';
+import {STUDIONET_CHAIN_ID_HEX} from '../lib/genlayer/constants';
 type Wallet={account:string|null;chainId:string|null;connect:()=>Promise<void>;disconnect:()=>Promise<void>;switchNetwork:()=>Promise<void>;wrongNetwork:boolean;connecting:boolean;error:string|null};
 const C=createContext<Wallet>({account:null,chainId:null,connect:async()=>{},disconnect:async()=>{},switchNetwork:async()=>{},wrongNetwork:false,connecting:false,error:null});
-const target='0xf22f';
+const target=STUDIONET_CHAIN_ID_HEX;
 function readable(error:unknown){const m=error instanceof Error?error.message:String(error);if(/user rejected|denied|rejected/i.test(m))return 'Connection request declined.';return m.length>90?`${m.slice(0,87)}…`:m}
 export function WalletProvider({children}:{children:React.ReactNode}){const [account,setAccount]=useState<string|null>(null);const [chainId,setChainId]=useState<string|null>(null);const [connecting,setConnecting]=useState(false);const [error,setError]=useState<string|null>(null);
 const connect=async()=>{const e=(window as any).ethereum;if(!e){setError('No injected wallet detected.');return}setConnecting(true);setError(null);try{const a=await e.request({method:'eth_requestAccounts'});if(!Array.isArray(a))throw new Error('Wallet returned an invalid account response.');setAccount(a[0]??null);setChainId(await e.request({method:'eth_chainId'}));}catch(err){setError(readable(err));}finally{setConnecting(false)}};
