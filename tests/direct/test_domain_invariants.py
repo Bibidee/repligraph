@@ -38,3 +38,12 @@ def test_latest_only_semantic_policy_deduplicates_versions_and_fields():
             continue
         seen.add(identity); result.append(identity)
     assert result == [(2, 2, "QUESTION"), (2, 2, "METHOD"), (1, 1, "CONCLUSION")]
+
+def test_consensus_prompt_separates_evidence_and_semantic_context():
+    source = (Path(__file__).parents[2] / "contracts" / "repligraph.py").read_text(encoding="utf-8")
+    prompt = source[source.index("    def _decision_prompt"):source.index("    @gl.public.write", source.index("    def _decision_prompt"))]
+    assert '"evidence": {"url": claim.evidence_url, "committed_sha256": claim.evidence_digest, "fetched_text": fetched_evidence[:4000]}' in prompt
+    assert '"semantic_context": semantic_context' in prompt
+    assert '"relation_rules"' in prompt
+    assert "claimed_relation" in prompt
+    assert "authoritative" not in prompt.split('"claimed_relation"', 1)[1].split('"evidence"', 1)[0]
