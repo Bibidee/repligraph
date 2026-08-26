@@ -62,3 +62,25 @@ def test_failure_classes_are_distinct_and_retryable_failures_can_retry():
     assert 'outcome_class == "REVIEW_RETRYABLE"' in source
     assert '"REVIEW_RETRYABLE"' in source[source.index("def adjudicate_relation"):]
     assert 'def get_edge' in source
+
+def validate_outcome(decision, comparable, outcome_class):
+    substantive = {"DIRECT_REPLICATION", "MATERIAL_VARIANT", "EXTENSION", "CONTRADICTORY_RESULT", "INCOMPARABLE"}
+    if outcome_class == "DECISION": return decision in substantive
+    if outcome_class == "SEMANTIC_INSUFFICIENT": return decision == "INSUFFICIENT"
+    if outcome_class in {"EVIDENCE_INVALID", "REVIEW_RETRYABLE"}: return decision == "INSUFFICIENT" and comparable is False
+    return False
+
+def test_outcome_class_cross_field_invariants():
+    assert validate_outcome("DIRECT_REPLICATION", True, "DECISION")
+    assert not validate_outcome("INSUFFICIENT", False, "DECISION")
+    assert validate_outcome("INSUFFICIENT", False, "SEMANTIC_INSUFFICIENT")
+    assert not validate_outcome("EXTENSION", True, "SEMANTIC_INSUFFICIENT")
+    assert validate_outcome("INSUFFICIENT", False, "REVIEW_RETRYABLE")
+    assert not validate_outcome("DIRECT_REPLICATION", True, "REVIEW_RETRYABLE")
+    assert validate_outcome("INSUFFICIENT", False, "EVIDENCE_INVALID")
+    assert not validate_outcome("INSUFFICIENT", True, "EVIDENCE_INVALID")
+
+def test_model_result_is_wrapped_without_outcome_class_input():
+    source = (Path(__file__).parents[2] / "contracts" / "repligraph.py").read_text(encoding="utf-8")
+    assert 'set(model_result.keys()) != {"decision", "comparable", "reason"}' in source
+    assert '"SEMANTIC_INSUFFICIENT" if model_decision == "INSUFFICIENT" else "DECISION"' in source

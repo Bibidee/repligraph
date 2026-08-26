@@ -223,7 +223,15 @@ class RepliGraph(gl.Contract):
                 except Exception:
                     return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Prompt construction failed."}
                 try:
-                    return gl.nondet.exec_prompt(prompt, response_format="json")
+                    model_result = gl.nondet.exec_prompt(prompt, response_format="json")
+                    if not isinstance(model_result, dict) or set(model_result.keys()) != {"decision", "comparable", "reason"}:
+                        return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Semantic model returned a malformed envelope."}
+                    model_decision = model_result.get("decision")
+                    model_comparable = model_result.get("comparable")
+                    model_reason = model_result.get("reason")
+                    if model_decision not in ["DIRECT_REPLICATION", "MATERIAL_VARIANT", "EXTENSION", "CONTRADICTORY_RESULT", "INCOMPARABLE", "INSUFFICIENT"] or not isinstance(model_comparable, bool) or not isinstance(model_reason, str) or len(model_reason) > 600:
+                        return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Semantic model returned invalid fields."}
+                    return {"decision": model_decision, "comparable": model_comparable, "outcome_class": "SEMANTIC_INSUFFICIENT" if model_decision == "INSUFFICIENT" else "DECISION", "reason": model_reason}
                 except Exception:
                     return {"decision": "INSUFFICIENT", "comparable": False, "outcome_class": "REVIEW_RETRYABLE", "reason": "Semantic model evaluation failed."}
             except Exception:
@@ -248,6 +256,9 @@ class RepliGraph(gl.Contract):
         if outcome_class not in ["DECISION", "SEMANTIC_INSUFFICIENT", "EVIDENCE_INVALID", "REVIEW_RETRYABLE"]:
             raise Exception("invalid consensus outcome class")
         if decision not in ["DIRECT_REPLICATION", "MATERIAL_VARIANT", "EXTENSION", "CONTRADICTORY_RESULT", "INCOMPARABLE", "INSUFFICIENT"]: raise Exception("invalid consensus decision")
+        if outcome_class == "DECISION" and decision == "INSUFFICIENT": raise Exception("inconsistent decision outcome")
+        if outcome_class == "SEMANTIC_INSUFFICIENT" and decision != "INSUFFICIENT": raise Exception("inconsistent semantic outcome")
+        if outcome_class in ["EVIDENCE_INVALID", "REVIEW_RETRYABLE"] and (decision != "INSUFFICIENT" or comparable): raise Exception("inconsistent failure outcome")
         if decision == "CONTRADICTORY_RESULT" and not comparable: decision = "INCOMPARABLE"
         if not isinstance(reason, str) or len(reason) > 600: raise Exception("invalid consensus reason")
         claim.rationale = reason; claim.outcome_class = outcome_class; claim.reviewed_at = self._now()
