@@ -27,7 +27,9 @@ an immutable relation edge between two public study/protocol nodes
 **Code status:** Contract and frontend scaffold implemented; toolchain verification pending  
 **StudioNet contract:** Not deployed yet  
 **Live frontend:** Not deployed yet  
-**Last durable update:** 2026-08-23
+**Last durable update:** 2026-08-26
+
+**Latest verified status:** Contract `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` is deployed on StudioNet. Two studies are readable, `search_related` returns the related study, claim `1` is `EDGE_ACCEPTED`, and the adjudication transaction finalized successfully. Frontend production URL is `https://repligraph.vercel.app`.
 
 The first implementing agent must not invent fake deployment addresses, transaction hashes, test counts or live URLs. Add them here only after they exist and have been verified.
 

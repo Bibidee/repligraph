@@ -159,3 +159,5 @@ Copy this block for every meaningful work unit:
 ## Verification handoff — 2026-08-26
 
 StudioNet verification is complete. The official GenLayer CLI v0.39.2 is installed locally at `tools/genlayer-cli`; the unlocked `faultline-dev` account was used. The corrected contract is `0x7cd6075d0989F2b8640beeD28128BBBC828F3cE6` (deployment tx `0x5e2851568ef1a13c178e925e6c395b2388d3b34b941a82b9dcff4d739914393e`). A real `register_study` write succeeded with tx `0x6cf1d79c87c64ca520c401ed0d748a19f20b69b9aa347063880bbbeeb829a720`, and `get_study(1)` read back the stored record. Frontend `.env.local` points at this deployment.
+
+Final workflow: deployed `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` with deployment tx `0xb2724e214bc487224c8ab21afa8d3589a058088ce681f9b08efc21a8ca7d62b4`. Studies 1 and 2 are readable, semantic search returns study 2, claim 1 finalized, and adjudication tx `0xb0d89d50483cdebea815a40c28070ac10ddcc803b4315aa5a1863b2814afcb86` produced `EDGE_ACCEPTED` with `DIRECT_REPLICATION`. Python is unavailable, so Python tests remain not run.
