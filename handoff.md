@@ -167,15 +167,17 @@ Latest local commit: `d7f53a8`.
 
 The contract source now preserves immutable study versions, stores edges by a dedicated edge ID, exposes `get_study_version`, `list_studies`, and `list_edges_global`, keeps historical semantic vectors searchable, validates SHA-256 digests, and rejects malformed consensus envelopes. The frontend wallet control now separates address copy from disconnect and blocks writes when the wallet is not on StudioNet.
 
-The previously deployed address `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` is superseded by this source change and must not be presented as the final deployment until a fresh deployment is completed.
+Historical note: the previously deployed address `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` is superseded and retained for audit history only.
 
-The local Next production build passes. Fresh StudioNet deployment is currently blocked because the installed CLI is prompting for the encrypted `faultline-dev` keystore password in this process. No password or private key has been guessed or fabricated. Python is also unavailable, so Python and GenLayer integration tests cannot be run here. Wallet popup tests require an injected MetaMask or Rabby provider, which this browser session does not expose.
+The local Next production build passes. This paragraph records the earlier pre-unlock state; it has since been resolved. Wallet popup tests remain dependent on an injected MetaMask or Rabby provider.
 ## 2026-08-26 corrective pass after 86a5881
 
 Commit `685897d` fixes the StudioNet chain constant (`61999` / `0xf22f`), returns `edge_id` from successful adjudication, adds pinned StudyVersion reads and a live relation adjudication action, and adds null-safe data-source types. Production Vercel deployment `web-3tr9lkfh4-bibidees-projects.vercel.app` is aliased to `https://repligraph.vercel.app`.
 
-The contract has not been redeployed after these source changes. The CLI still requires the encrypted `faultline-dev` keystore password, and StudioNet schema requests are blocked by the current network sandbox. The release remains deployment-pending.
+Historical pre-deployment checkpoint. It was superseded by the final deployment recorded below.
 
 Focused pre-deployment correction: `search_related` scope bug fixed and regression guards added. Frozen source hash: `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
 
 Final deployment completed on StudioNet: `0x9A32B51b9FA6B6f2Cdb9726B936D95Da6665dF5c`, tx `0xfd1a5d621477269647327ac1ca24069b845433bfd1ef2f2bd75362c1ba40fbdc`. Live checks confirmed studies 1 and 2, Study B versions 1 and 2, semantic search returning current v2 across QUESTION, METHOD, and CONCLUSION, claim 1 returning INSUFFICIENT on failed evidence fetch, and claim 2 also failing closed with edge return 0. Production frontend now points to this address at https://repligraph.vercel.app.
+
+Accepted-path closure attempt: factual evidence was published at `https://repligraph.vercel.app/evidence/direct-replication.txt`. Claim 4 finalized, but adjudication also returned `0` and stored `INSUFFICIENT`. No `EDGE_ACCEPTED` result is recorded. This is preserved as fail-closed behavior, not presented as an accepted-edge proof.
