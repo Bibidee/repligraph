@@ -4,13 +4,12 @@
 
 ## Current checkpoint
 
-- **Phase:** Initial implementation and direct-client wiring.
-- **Last completed work:** Added the contract, direct GenLayer client/read/write/finality modules, wallet/network gate, and all documented deep-link UI surfaces.
-- **Next exact action:** Complete dependency installation in an environment with registry access, then run the frontend verification commands and validate the contract against the GenLayer CLI.
-- **Known blockers:** None yet. Runtime/API mismatches discovered later must be logged rather than guessed around.
-- **StudioNet address:** Not deployed.
-- **Deployment commit:** Not available.
-- **Frontend URL:** Not deployed.
+- **Phase:** Final provenance and failure-classification hardening.
+- **Last completed work:** Production contract and frontend are deployed; fail-closed adjudication was verified; this pass adds evidence digest verification and retryable/integrity status classification without weakening consensus.
+- **StudioNet address:** `0x08173965461f16baA3293e3bB46e540447E6CD80`.
+- **Frontend URL:** `https://repligraph.vercel.app`.
+- **Previous source hash:** `56B7CBD5ECDE225DEE146B5D02D8FAE305DADAD99C53205A622BE6A2C8148AB8`.
+- **Current unresolved item:** validate and redeploy the changed contract once, then run the clean distinct-study lifecycle. Existing StudioNet tracing is unavailable.
 
 ## Immediate implementation sequence
 

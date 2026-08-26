@@ -21,17 +21,17 @@ an immutable relation edge between two public study/protocol nodes
 - GenLayer validator
 - data/research graph consumer
 
-## Current status
+## CURRENT VERIFIED STATE
 
-**Phase:** Initial implementation / verification pending  
-**Code status:** Contract and frontend scaffold implemented; toolchain verification pending  
-**StudioNet contract:** Not deployed yet  
-**Live frontend:** Not deployed yet  
-**Last durable update:** 2026-08-26
-
-**Latest verified status:** Contract `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` is deployed on StudioNet. Two studies are readable, `search_related` returns the related study, claim `1` is `EDGE_ACCEPTED`, and the adjudication transaction finalized successfully. Frontend production URL is `https://repligraph.vercel.app`.
-
-The first implementing agent must not invent fake deployment addresses, transaction hashes, test counts or live URLs. Add them here only after they exist and have been verified.
+- Repository HEAD: `a7f022c6ea55e232c2d9442593cbbe82ee8f0fdd` before this hardening change.
+- Architecture: one GenLayer Intelligent Contract plus one directly hosted frontend; no backend or database.
+- Deployed contract: `0x08173965461f16baA3293e3bB46e540447E6CD80`.
+- Previous deployed source hash: `56B7CBD5ECDE225DEE146B5D02D8FAE305DADAD99C53205A622BE6A2C8148AB8`.
+- Production frontend: `https://repligraph.vercel.app`.
+- Existing fail-closed adjudication: claim `1`, adjudication tx `0xc43b46131110fddf43cdbfc77f3f0ac7c1f7be4c04a9363852e2d6d399be226d`, final status `INSUFFICIENT`, no edge.
+- This pass adds cryptographic evidence-body verification and distinguishes integrity failures from retryable retrieval/model failures. The new source hash is recorded after validation.
+- Python/Direct Mode availability must be verified in the current environment. StudioNet transaction tracing remains unavailable because `gen_dbg_traceTransaction` is not exposed.
+- Exact next unresolved item: validate the new source locally, recompute hash, then deploy once and run the clean lifecycle if StudioNet validator infrastructure permits.
 
 ## Non-negotiable product boundary
 
