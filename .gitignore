@@ -9,3 +9,5 @@ __pycache__/
 *.tsbuildinfo
 tools/genlayer-cli/
 genlayer-*.tgz
+
+.vercel
