@@ -1,4 +1,4 @@
 export type Study={study_id:string|number;registrant:string;title:string;question_text:string;method_text:string;conclusion_text:string;manifest_url:string;manifest_digest:string;publication_ref:string;version:string|number;created_at:string|number};
 export type RelationClaim={claim_id:string|number;source_id:string|number;target_id:string|number;source_version:string|number;target_version:string|number;claimant:string;claimed_relation:string;evidence_url:string;evidence_digest:string;status:string;final_relation:string;rationale:string;reviewed_at:string|number};
-export type Edge={claim_id:string|number;source_id:string|number;target_id:string|number;source_version:string|number;target_version:string|number;relation_code:string;rationale:string;accepted_at:string|number};
+export type Edge={edge_id:string|number;claim_id:string|number;source_id:string|number;target_id:string|number;source_version:string|number;target_version:string|number;relation_code:string;rationale:string;accepted_at:string|number};
 export type Neighbor={study_id:string|number;field_kind:string;version:string|number;distance:number;title:string};

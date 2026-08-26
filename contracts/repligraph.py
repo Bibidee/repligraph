@@ -52,6 +52,7 @@ class RelationClaim:
 @allow_storage
 @dataclass
 class Edge:
+    edge_id: u256
     claim_id: u256
     source_id: u256
     target_id: u256
@@ -71,6 +72,7 @@ class VectorPointer:
 
 class RepliGraph(gl.Contract):
     studies: TreeMap[u256, Study]
+    study_versions: TreeMap[str, Study]
     claims: TreeMap[u256, RelationClaim]
     edges: TreeMap[u256, Edge]
     study_count: u256
@@ -97,8 +99,11 @@ class RepliGraph(gl.Contract):
 
     def _require_digest(self, value: str):
         self._require_text(value, "digest", MAX_DIGEST)
-        if len(value) < 16:
-            raise Exception("digest is too short")
+        if len(value) != 64 or any(c not in "0123456789abcdefABCDEF" for c in value):
+            raise Exception("digest must be a SHA-256 hex digest")
+
+    def _version_key(self, study_id: u256, version: u256) -> str:
+        return str(study_id) + ":" + str(version)
 
     def _now(self) -> u256:
         # StudioNet's current GenVM does not expose a block timestamp in the
@@ -126,6 +131,7 @@ class RepliGraph(gl.Contract):
         self.study_count += 1
         study = Study(self.study_count, str(gl.message.sender_address), title, question_text, method_text, conclusion_text, manifest_url, manifest_digest, publication_ref, 1, self._now())
         self.studies[study.study_id] = study
+        self.study_versions[self._version_key(study.study_id, study.version)] = study
         self._insert_memories(study)
         return study.study_id
 
@@ -136,11 +142,13 @@ class RepliGraph(gl.Contract):
         if current.registrant != str(gl.message.sender_address): raise Exception("only registrant may append a correction")
         self._require_ref(correction_url, "correction_url")
         self._require_digest(correction_digest)
-        current.version += 1
-        current.manifest_url = correction_url
-        current.manifest_digest = correction_digest
-        self.studies[study_id] = current
-        return current.version
+        next_version = current.version + 1
+        corrected = Study(current.study_id, current.registrant, current.title, current.question_text, current.method_text, current.conclusion_text, correction_url, correction_digest, current.publication_ref, next_version, current.created_at)
+        self.study_versions[self._version_key(study_id, current.version)] = current
+        self.study_versions[self._version_key(study_id, next_version)] = corrected
+        self.studies[study_id] = corrected
+        self._insert_memories(corrected)
+        return next_version
 
     @gl.public.write
     def claim_relation(self, source_study_id: u256, target_study_id: u256, claimed_relation: str, evidence_url: str, evidence_digest: str) -> u256:
@@ -166,8 +174,11 @@ class RepliGraph(gl.Contract):
         source = self.studies[claim.source_id]; target = self.studies[claim.target_id]
         if source.version != claim.source_version or target.version != claim.target_version: raise Exception("claim is stale; create a new claim")
         claim.status = "UNDER_REVIEW"; self.claims[claim_id] = claim
-        neighbors = self.search_related(claim.source_id, "QUESTION", 4)
-        prompt = self._decision_prompt(source, target, claim, json.dumps(neighbors))
+        neighbor_groups = []
+        for kind in ["QUESTION", "METHOD", "CONCLUSION"]:
+            neighbor_groups.extend(self.search_related(claim.source_id, kind, 4))
+        public_evidence = gl.get_webpage(claim.evidence_url, mode="text")
+        prompt = self._decision_prompt(source, target, claim, json.dumps({"neighbors": neighbor_groups, "evidence": public_evidence[:4000]}))
         result_text = gl.eq_principle.prompt_non_comparative(
             lambda: gl.nondet.exec_prompt(prompt),
             task="Return JSON only with decision, comparable, and reason.",
@@ -178,15 +189,19 @@ class RepliGraph(gl.Contract):
         except Exception:
             raise Exception("malformed consensus envelope")
         if not isinstance(result, dict): raise Exception("malformed consensus envelope")
-        decision = result.get("decision"); comparable = result.get("comparable", False); reason = result.get("reason", "")
+        if set(result.keys()) != {"decision", "comparable", "reason"}:
+            raise Exception("malformed consensus envelope")
+        decision = result.get("decision"); comparable = result.get("comparable"); reason = result.get("reason")
+        if not isinstance(comparable, bool):
+            raise Exception("invalid consensus comparable flag")
         if decision not in ["DIRECT_REPLICATION", "MATERIAL_VARIANT", "EXTENSION", "CONTRADICTORY_RESULT", "INCOMPARABLE", "INSUFFICIENT"]: raise Exception("invalid consensus decision")
         if decision == "CONTRADICTORY_RESULT" and not comparable: decision = "INCOMPARABLE"
         if not isinstance(reason, str) or len(reason) > 600: raise Exception("invalid consensus reason")
         claim.final_relation = decision; claim.rationale = reason; claim.reviewed_at = self._now()
         if decision == "INSUFFICIENT": claim.status = "INSUFFICIENT"; self.claims[claim_id] = claim; return 0
         self.edge_count += 1
-        edge = Edge(self.edge_count, claim.source_id, claim.target_id, claim.source_version, claim.target_version, decision, reason, self._now())
-        self.edges[edge.claim_id] = edge
+        edge = Edge(self.edge_count, claim.claim_id, claim.source_id, claim.target_id, claim.source_version, claim.target_version, decision, reason, self._now())
+        self.edges[edge.edge_id] = edge
         claim.status = "EDGE_ACCEPTED"; self.claims[claim_id] = claim
         return edge.claim_id
 
@@ -194,6 +209,12 @@ class RepliGraph(gl.Contract):
     def get_study(self, study_id: u256):
         if study_id not in self.studies: return None
         return self.studies[study_id]
+
+    @gl.public.view
+    def get_study_version(self, study_id: u256, version: u256):
+        key = self._version_key(study_id, version)
+        if key not in self.study_versions: return None
+        return self.study_versions[key]
 
     @gl.public.view
     def get_relation(self, claim_id: u256):
@@ -213,6 +234,28 @@ class RepliGraph(gl.Contract):
         return result
 
     @gl.public.view
+    def list_edges_global(self, offset: u256, limit: u256):
+        if limit > MAX_PAGE: limit = MAX_PAGE
+        result = []
+        skipped = 0
+        for i in range(1, int(self.edge_count) + 1):
+            if i in self.edges:
+                if skipped < offset: skipped += 1
+                elif len(result) < limit: result.append(self.edges[i])
+        return result
+
+    @gl.public.view
+    def list_studies(self, offset: u256, limit: u256):
+        if limit > MAX_PAGE: limit = MAX_PAGE
+        result = []
+        skipped = 0
+        for i in range(1, int(self.study_count) + 1):
+            if i in self.studies:
+                if skipped < offset: skipped += 1
+                elif len(result) < limit: result.append(self.studies[i])
+        return result
+
+    @gl.public.view
     def search_related(self, study_id: u256, field_kind: str, k: u256):
         if study_id not in self.studies: raise Exception("study not found")
         if field_kind not in ["QUESTION", "METHOD", "CONCLUSION"]: raise Exception("invalid field")
@@ -226,7 +269,6 @@ class RepliGraph(gl.Contract):
             pointer = hit.value
             if pointer.record_id != study_id and pointer.field_kind == field_kind and pointer.record_id in self.studies:
                 candidate = self.studies[pointer.record_id]
-                if candidate.version == pointer.version:
-                    result.append({"study_id": pointer.record_id, "field_kind": pointer.field_kind, "version": pointer.version, "distance": str(hit.distance), "title": candidate.title})
+                result.append({"study_id": pointer.record_id, "field_kind": pointer.field_kind, "version": pointer.version, "distance": str(hit.distance), "title": candidate.title})
             if len(result) >= k: break
         return result
