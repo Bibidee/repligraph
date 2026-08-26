@@ -1,0 +1,3 @@
+RepliGraph validation evidence
+
+Study A and Study B use the same research question, population, protocol, outcome measurement, and analysis plan. Study B is an independent direct replication of Study A. The reported outcome supports the same conclusion.
