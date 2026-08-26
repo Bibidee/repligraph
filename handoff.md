@@ -170,3 +170,8 @@ The contract source now preserves immutable study versions, stores edges by a de
 The previously deployed address `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` is superseded by this source change and must not be presented as the final deployment until a fresh deployment is completed.
 
 The local Next production build passes. Fresh StudioNet deployment is currently blocked because the installed CLI is prompting for the encrypted `faultline-dev` keystore password in this process. No password or private key has been guessed or fabricated. Python is also unavailable, so Python and GenLayer integration tests cannot be run here. Wallet popup tests require an injected MetaMask or Rabby provider, which this browser session does not expose.
+## 2026-08-26 corrective pass after 86a5881
+
+Commit `685897d` fixes the StudioNet chain constant (`61999` / `0xf22f`), returns `edge_id` from successful adjudication, adds pinned StudyVersion reads and a live relation adjudication action, and adds null-safe data-source types. Production Vercel deployment `web-3tr9lkfh4-bibidees-projects.vercel.app` is aliased to `https://repligraph.vercel.app`.
+
+The contract has not been redeployed after these source changes. The CLI still requires the encrypted `faultline-dev` keystore password, and StudioNet schema requests are blocked by the current network sandbox. The release remains deployment-pending.
