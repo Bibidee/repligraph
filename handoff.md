@@ -177,3 +177,5 @@ Commit `685897d` fixes the StudioNet chain constant (`61999` / `0xf22f`), return
 The contract has not been redeployed after these source changes. The CLI still requires the encrypted `faultline-dev` keystore password, and StudioNet schema requests are blocked by the current network sandbox. The release remains deployment-pending.
 
 Focused pre-deployment correction: `search_related` scope bug fixed and regression guards added. Frozen source hash: `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
+
+Final deployment completed on StudioNet: `0x9A32B51b9FA6B6f2Cdb9726B936D95Da6665dF5c`, tx `0xfd1a5d621477269647327ac1ca24069b845433bfd1ef2f2bd75362c1ba40fbdc`. Live checks confirmed studies 1 and 2, Study B versions 1 and 2, semantic search returning current v2 across QUESTION, METHOD, and CONCLUSION, claim 1 returning INSUFFICIENT on failed evidence fetch, and claim 2 also failing closed with edge return 0. Production frontend now points to this address at https://repligraph.vercel.app.

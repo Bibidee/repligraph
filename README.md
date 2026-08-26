@@ -31,3 +31,5 @@ The earlier StudioNet deployment `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` (t
 Current release status: frontend build passes, but fresh deployment is blocked by the encrypted CLI keystore prompt in this environment. Python integration tests and injected-wallet popup tests are also unavailable here.
 
 Pre-deployment correction at commit `c797825`: `search_related` now initializes its deduplication set in its own scope and the contract SHA-256 is `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
+
+Final StudioNet deployment: `0x9A32B51b9FA6B6f2Cdb9726B936D95Da6665dF5c`, deployment transaction `0xfd1a5d621477269647327ac1ca24069b845433bfd1ef2f2bd75362c1ba40fbdc`. The deployment receipt is FINALIZED with SUCCESS and the published source includes the versioned study, edge ID, and semantic deduplication fixes. Production is served at [repligraph.vercel.app](https://repligraph.vercel.app).
