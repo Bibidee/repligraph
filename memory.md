@@ -162,3 +162,4 @@ At the end of every work session:
 - Frozen contract SHA-256: `56B7CBD5ECDE225DEE146B5D02D8FAE305DADAD99C53205A622BE6A2C8148AB8`.
 - Production frontend: https://repligraph.vercel.app.
 - Latest live reads confirm semantic search for QUESTION, METHOD, and CONCLUSION and latest-only deduplication. The final proof still lacks a distinct target study and signed claim/adjudication because the CLI keystore cannot be unlocked in a new shell without the user's password.
+- The global CLI was later unlocked in one shell. Claim tx `0x77bcddbc72edd77245f1adfcf87bd37bbf38480b72c0b0338a9d8c6024198909` and adjudication tx `0xc43b46131110fddf43cdbfc77f3f0ac7c1f7be4c04a9363852e2d6d399be226d` finalized. Adjudication stored `INSUFFICIENT` because validator web/evaluation was unavailable; edge lists remained empty.
