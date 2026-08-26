@@ -1,0 +1,9 @@
+TITLE: Replication of controlled caffeine reaction-time experiment
+QUESTION: Does a 100 mg oral caffeine dose reduce mean simple visual reaction time in healthy adults aged 18 to 35 compared with placebo?
+POPULATION: Healthy adults aged 18 to 35
+DESIGN: Randomized double-blind placebo-controlled experiment
+INTERVENTION: 100 mg oral caffeine after 12-hour caffeine abstinence
+COMPARATOR: Placebo
+OUTCOME: Mean simple visual reaction time in milliseconds
+TIMING: 45 minutes after dosing, computerized 50-trial task
+CONCLUSION: The replication observed a lower mean reaction time in the caffeine group than placebo.
