@@ -154,3 +154,11 @@ At the end of every work session:
 - Official GenLayer CLI `genlayer@0.39.2` installed under `tools/genlayer-cli`; keytar rebuilt and unlocked StudioNet account `faultline-dev` used.
 - Latest corrected deployment: `0x7cd6075d0989F2b8640beeD28128BBBC828F3cE6`, tx `0x5e2851568ef1a13c178e925e6c395b2388d3b34b941a82b9dcff4d739914393e`.
 - Live `register_study` succeeded: tx `0x6cf1d79c87c64ca520c401ed0d748a19f20b69b9aa347063880bbbeeb829a720`; `get_study(1)` returned the persisted record.
+
+## 2026-08-26 final state
+
+- Repository HEAD: `06d389e`.
+- Final deployed RepliGraph contract: `0x08173965461f16baA3293e3bB46e540447E6CD80`.
+- Frozen contract SHA-256: `56B7CBD5ECDE225DEE146B5D02D8FAE305DADAD99C53205A622BE6A2C8148AB8`.
+- Production frontend: https://repligraph.vercel.app.
+- Latest live reads confirm semantic search for QUESTION, METHOD, and CONCLUSION and latest-only deduplication. The final proof still lacks a distinct target study and signed claim/adjudication because the CLI keystore cannot be unlocked in a new shell without the user's password.

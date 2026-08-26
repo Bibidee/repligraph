@@ -183,3 +183,9 @@ Final deployment completed on StudioNet: `0x08173965461f16baA3293e3bB46e540447E6
 Accepted-path closure attempt: factual evidence was published at `https://repligraph.vercel.app/evidence/direct-replication.txt`. Claim 4 finalized, but adjudication also returned `0` and stored `INSUFFICIENT`. No `EDGE_ACCEPTED` result is recorded. This is preserved as fail-closed behavior, not presented as an accepted-edge proof.
 
 Final frozen-contract lifecycle attempt: source study registration finalized as tx `0xda89820c22edab17dc281c4a5e4a9ec2727493f589e33b599588f0f6e5df29ea` with ID 2. Replication study registration finalized as tx `0x2f02133c94f8314a80479aae4194b813f8776f4729baffca0dbef9c123576366` with ID 3. QUESTION, METHOD, and CONCLUSION semantic search returned the replication study at version 1. Claim 1 finalized, and adjudication tx `0xd7ce097ec94fe27d52d65d072868d2a80fb41dc386fdde43ea0af33bcfa09404` finalized with execution success but returned 0 and stored `INSUFFICIENT`. No accepted edge was created.
+
+## 2026-08-26 final live proof status
+
+The repository is now at commit `06d389e`. The deployed contract remains `0x08173965461f16baA3293e3bB46e540447E6CD80` with source SHA-256 `56B7CBD5ECDE225DEE146B5D02D8FAE305DADAD99C53205A622BE6A2C8148AB8`. A clean source registration finalized as `0x5ff35460fcf8cef864413f4b1dfb99dd07d9d2c23477d0d0aaed79d7c5af31e1`; the newest read shows three persisted records, all source fixture duplicates, so a distinct replication target has not been seeded. QUESTION, METHOD, and CONCLUSION searches execute successfully and deduplicate by `(study_id, version)`.
+
+The remaining signed steps are blocked by the local CLI keystore: OS keychain unlock is unavailable and a new shell prompts for the keystore password. No claim or adjudication transaction was submitted against this final state. Do not report an accepted edge until a distinct target is registered, claimed, adjudicated, and independently verified.
