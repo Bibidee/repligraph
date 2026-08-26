@@ -175,3 +175,5 @@ The local Next production build passes. Fresh StudioNet deployment is currently 
 Commit `685897d` fixes the StudioNet chain constant (`61999` / `0xf22f`), returns `edge_id` from successful adjudication, adds pinned StudyVersion reads and a live relation adjudication action, and adds null-safe data-source types. Production Vercel deployment `web-3tr9lkfh4-bibidees-projects.vercel.app` is aliased to `https://repligraph.vercel.app`.
 
 The contract has not been redeployed after these source changes. The CLI still requires the encrypted `faultline-dev` keystore password, and StudioNet schema requests are blocked by the current network sandbox. The release remains deployment-pending.
+
+Focused pre-deployment correction: `search_related` scope bug fixed and regression guards added. Frozen source hash: `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.

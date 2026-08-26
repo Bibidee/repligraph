@@ -244,7 +244,6 @@ class RepliGraph(gl.Contract):
     def list_edges_global(self, offset: u256, limit: u256):
         if limit > MAX_PAGE: limit = MAX_PAGE
         result = []
-        seen = set()
         skipped = 0
         for i in range(1, int(self.edge_count) + 1):
             if i in self.edges:
@@ -273,6 +272,7 @@ class RepliGraph(gl.Contract):
         text = study.question_text if field_kind == "QUESTION" else study.method_text if field_kind == "METHOD" else study.conclusion_text
         hits = self.vectors.knn(self._embed(field_kind + "\n" + text), min(24, int(self.study_count) * 3))
         result = []
+        seen = set()
         for hit in hits:
             pointer = hit.value
             if pointer.record_id != study_id and pointer.field_kind == field_kind and pointer.record_id in self.studies:

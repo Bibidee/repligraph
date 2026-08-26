@@ -29,3 +29,5 @@ npm run build
 The earlier StudioNet deployment `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` (tx `0xb2724e214bc487224c8ab21afa8d3589a058088ce681f9b08efc21a8ca7d62b4`) verified studies 1 and 2, semantic search, claim `1`, adjudication, and an accepted `DIRECT_REPLICATION` edge. It is superseded by the versioned-study and edge-integrity source changes in commit `d7f53a8`; do not use it as the final release address until a fresh deployment is completed.
 
 Current release status: frontend build passes, but fresh deployment is blocked by the encrypted CLI keystore prompt in this environment. Python integration tests and injected-wallet popup tests are also unavailable here.
+
+Pre-deployment correction at commit `c797825`: `search_related` now initializes its deduplication set in its own scope and the contract SHA-256 is `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
