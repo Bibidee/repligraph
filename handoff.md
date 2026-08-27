@@ -13,7 +13,7 @@
 ## Verification record
 
 - Python: 95 passed.
-- Frontend unit tests: 44 passed.
+- Frontend unit tests: 49 passed.
 - TypeScript: passed.
 - ESLint: passed.
 - Next.js production build: passed.
@@ -53,3 +53,7 @@ Commit 71eea0d changes only the frontend. Study registration now snapshots and r
 ### Absolute frontend closure
 
 Commit bba8ccd keeps the contract frozen and adds complete bounded study-specific edge pagination for receipts and relation pages. Edge lookup stops after a short page or fails after 100 full pages. Post-write claim resolution rejects ranges above 100 and reads allowed candidates in batches of 10. Global graph pagination remains capped at 100 pages and the homepage explicitly discloses truncation above 5,000 records. Commit 505be7c extends the same complete lookup to study detail pages. Production deployment is dpl_BXkhYx2XNr32HRoZCkPoGjammP4R.
+
+### Wallet session rehydration
+
+Commit a07cd51 keeps the contract frozen and restores an already-authorized wallet on page refresh by reading eth_accounts and eth_chainId silently. No eth_requestAccounts call is made during hydration. Explicit connect and disconnect flows, all wallet event listeners, and wrong-network reporting remain unchanged. Twelve wallet hydration and safety tests were added, bringing the frontend suite to 49. Production deployment is dpl_G6pjhvnoERtfrC8L5WE664wh44Lt.

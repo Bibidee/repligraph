@@ -8,7 +8,7 @@
 - StudioNet contract: `0xc09430347945C4311A539a3D91D0bB36a0DbDE2D`.
 - Deployment transaction: `0x87838308bfba26d3e12412f1836fa8b9c9a7dc3caff9f6b81a6988b9ec2da079`.
 - Frozen contract SHA-256: `1154D159BE50BB16D3F2980AC30C0421FF3C6B8A13E1E8FE1834B159998AA976`.
-- Validation: 95 Python tests, 44 frontend tests, typecheck, lint, production build, schema retrieval, npm audit, and responsive route QA passed.
+- Validation: 95 Python tests, 49 frontend tests, typecheck, lint, production build, schema retrieval, npm audit, and responsive route QA passed.
 - Live lifecycle: study 1 and study 2 registered; all three semantic fields returned study 2; claim 1 finalized; adjudication reached validator majority agreement; claim 1 is `EDGE_ACCEPTED`; edge 1 is `DIRECT_REPLICATION`.
 - Remaining repository-controlled critical or high issues: none.
 
@@ -31,6 +31,7 @@ Semantic retrieval uses independent QUESTION, METHOD, and CONCLUSION stores. Sim
 - Frontend-only corrective pass at commit 71eea0d removes count-plus-one ID guesses. New study and claim records are resolved from post-finalization authoritative reads with full payload matching and explicit ambiguity errors. Homepage pagination is bounded by get_counts.
 - Final frontend closure at commit bba8ccd adds bounded study-specific edge pagination, a 100-claim post-write scan cap with batches of 10, and explicit global graph truncation disclosure above 5,000 records.
 - Commit 505be7c extends complete bounded edge lookup to study detail pages. Latest production deployment is dpl_BXkhYx2XNr32HRoZCkPoGjammP4R.
+- Commit a07cd51 adds silent wallet session rehydration from provider-authorized accounts and chain ID without invoking account permission prompts. Latest frontend deployment is dpl_G6pjhvnoERtfrC8L5WE664wh44Lt.
 
 ## Final live proof
 
