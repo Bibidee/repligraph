@@ -30,6 +30,7 @@ Semantic retrieval uses independent QUESTION, METHOD, and CONCLUSION stores. Sim
 - No CI workflow is used for this release; validation was executed locally and against StudioNet.
 - Frontend-only corrective pass at commit 71eea0d removes count-plus-one ID guesses. New study and claim records are resolved from post-finalization authoritative reads with full payload matching and explicit ambiguity errors. Homepage pagination is bounded by get_counts.
 - Final frontend closure at commit bba8ccd adds bounded study-specific edge pagination, a 100-claim post-write scan cap with batches of 10, and explicit global graph truncation disclosure above 5,000 records.
+- Commit 505be7c extends complete bounded edge lookup to study detail pages. Latest production deployment is dpl_BXkhYx2XNr32HRoZCkPoGjammP4R.
 
 ## Final live proof
 

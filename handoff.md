@@ -52,4 +52,4 @@ Commit 71eea0d changes only the frontend. Study registration now snapshots and r
 
 ### Absolute frontend closure
 
-Commit bba8ccd keeps the contract frozen and adds complete bounded study-specific edge pagination for receipts and relation pages. Edge lookup stops after a short page or fails after 100 full pages. Post-write claim resolution rejects ranges above 100 and reads allowed candidates in batches of 10. Global graph pagination remains capped at 100 pages and the homepage explicitly discloses truncation above 5,000 records. Production deployment is dpl_DKt3suB5UH6PbUs5Wvs6yuZQn1fu.
+Commit bba8ccd keeps the contract frozen and adds complete bounded study-specific edge pagination for receipts and relation pages. Edge lookup stops after a short page or fails after 100 full pages. Post-write claim resolution rejects ranges above 100 and reads allowed candidates in batches of 10. Global graph pagination remains capped at 100 pages and the homepage explicitly discloses truncation above 5,000 records. Commit 505be7c extends the same complete lookup to study detail pages. Production deployment is dpl_BXkhYx2XNr32HRoZCkPoGjammP4R.
