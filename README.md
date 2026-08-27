@@ -17,7 +17,29 @@ Set `NEXT_PUBLIC_REPLIGRAPH_CONTRACT` to a deployed StudioNet contract before ex
 
 `contracts/repligraph.py` is the single deployable Intelligent Contract. It owns studies, immutable version corrections, relation claims, accepted edges, consensus receipts, and three-field semantic memory. Deployment requires the GenLayer CLI and a funded StudioNet development account; no application-user private key is used by the frontend.
 
-## Verification
+## Final StudioNet release
+
+Status: **COMPLETE EXCEPT EXTERNAL STUDIONET NONDETERMINISTIC-RUNTIME LIMITATION**
+
+- Contract: `0xE3487c2CCA45cc3F5C48e54f5c27cac1AEA6c848`
+- Deployment transaction: `0x3eb9bff8aae7e78c22c9784d229c37dcdfda509a9a8757515197c36f938f88e2`
+- Source SHA-256: `40A9C1BC4BDBC1398F2F70D46773E3F0DF310627552FE0D1E9B7BDF8749D3015`
+- Production: [repligraph.vercel.app](https://repligraph.vercel.app)
+
+Validation:
+
+- 9 deterministic/domain/source tests passed
+- TypeScript typecheck passed
+- ESLint passed
+- production build passed
+- contract schema retrieval passed
+- full GenLayer Direct Mode suite was unavailable in the current environment
+
+The final lifecycle registered source study 1 and target study 2, returned target 2 from QUESTION, METHOD, and CONCLUSION searches, and finalized claim 1 and its adjudication transaction. The authoritative result is `REVIEW_RETRYABLE` with rationale `Nondeterministic evaluation failed.` No edge was created, and production exposes `Retry adjudication`.
+
+StudioNet nondeterministic evaluation was unavailable during final adjudication. RepliGraph therefore failed safely and created no relation edge. No accepted-edge result is claimed without validator confirmation.
+
+## Local verification
 
 ```powershell
 cd apps/web
@@ -26,12 +48,7 @@ npm run lint
 npm run build
 ```
 
-Historical and superseded deployment: `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` (tx `0xb2724e214bc487224c8ab21afa8d3589a058088ce681f9b08efc21a8ca7d62b4`). It is retained for audit history only.
+## Historical deployments
 
-Current release status: deployed and serving from StudioNet. Python integration tests and injected-wallet popup tests are environment-dependent.
-
-Pre-deployment correction at commit `c797825`: `search_related` now initializes its deduplication set in its own scope and the contract SHA-256 is `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
-
-Final StudioNet deployment: `0xE3487c2CCA45cc3F5C48e54f5c27cac1AEA6c848`, deployment transaction `0x3eb9bff8aae7e78c22c9784d229c37dcdfda509a9a8757515197c36f938f88e2`. The deployment receipt is FINALIZED with SUCCESS and the deployed source hash is `40A9C1BC4BDBC1398F2F70D46773E3F0DF310627552FE0D1E9B7BDF8749D3015`. Production is served at [repligraph.vercel.app](https://repligraph.vercel.app). The final live claim remains `REVIEW_RETRYABLE` because StudioNet nondeterministic evaluation was unavailable; no edge was created.
-
-Final accepted-path proof status: pending. Claims using raw GitHub and production-hosted factual evidence both finalized fail-closed as `INSUFFICIENT`; no accepted edge is claimed without validator confirmation.
+- **SUPERSEDED:** `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3`, tx `0xb2724e214bc487224c8ab21afa8d3589a058088ce681f9b08efc21a8ca7d62b4`.
+- **HISTORICAL:** contract source at commit `c797825`, SHA-256 `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.

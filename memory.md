@@ -23,15 +23,14 @@ an immutable relation edge between two public study/protocol nodes
 
 ## CURRENT VERIFIED STATE
 
-- Repository HEAD: `4e4b63b90f2a19e1f4a651fa3c749f01d4c2c83e` before final documentation reconciliation.
+- Repository HEAD: `522a862bceffeb8b6c5df7c51f1246f379204718` before this documentation-only reconciliation.
 - Architecture: one GenLayer Intelligent Contract plus one directly hosted frontend; no backend or database.
 - Deployed contract: `0xE3487c2CCA45cc3F5C48e54f5c27cac1AEA6c848`.
 - Current source hash: `40A9C1BC4BDBC1398F2F70D46773E3F0DF310627552FE0D1E9B7BDF8749D3015`; deployment transaction `0x3eb9bff8aae7e78c22c9784d229c37dcdfda509a9a8757515197c36f938f88e2` finalized successfully.
 - Production frontend: `https://repligraph.vercel.app` (latest Vercel deployment `web-qf5wmarj7-bibidees-projects.vercel.app`).
-- Existing fail-closed adjudication: claim `1`, adjudication tx `0xc43b46131110fddf43cdbfc77f3f0ac7c1f7be4c04a9363852e2d6d399be226d`, final status `INSUFFICIENT`, no edge.
-- This pass adds cryptographic evidence-body verification and distinguishes integrity failures from retryable retrieval/model failures. The new source hash is recorded after validation.
-- Python/Direct Mode availability must be verified in the current environment. StudioNet transaction tracing remains unavailable because `gen_dbg_traceTransaction` is not exposed.
-- Exact next unresolved item: validate the new source locally, recompute hash, then deploy once and run the clean lifecycle if StudioNet validator infrastructure permits.
+- Status: COMPLETE EXCEPT EXTERNAL STUDIONET NONDETERMINISTIC-RUNTIME LIMITATION.
+- Validation: 9 deterministic/domain/source tests passed; actual Direct Mode tests: 0; typecheck, ESLint, production build, and schema retrieval passed.
+- Repository-controlled work and source-parity deployment are complete. StudioNet transaction tracing remains unavailable because `gen_dbg_traceTransaction` is not exposed.
 - Final live lifecycle on the current deployment registered source study 1 and target study 2, verified all three semantic searches, and finalized claim 1. Adjudication tx `0xcdb4523bb8cdc47255db332629449a5f5d9b03737b341a27cc6661645915fe2c` produced `REVIEW_RETRYABLE` with no final relation and no edge because StudioNet nondeterministic evaluation failed. The hosted relation page exposes `Retry adjudication`.
 
 ## Non-negotiable product boundary
@@ -153,13 +152,13 @@ At the end of every work session:
 
 - npm dependencies repaired; `npm run typecheck`, `npm run lint`, and `npm run build` pass in `apps/web`.
 - Official GenLayer CLI `genlayer@0.39.2` installed under `tools/genlayer-cli`; keytar rebuilt and unlocked StudioNet account `faultline-dev` used.
-- Latest corrected deployment: `0x7cd6075d0989F2b8640beeD28128BBBC828F3cE6`, tx `0x5e2851568ef1a13c178e925e6c395b2388d3b34b941a82b9dcff4d739914393e`.
+- **HISTORICAL / SUPERSEDED:** deployment `0x7cd6075d0989F2b8640beeD28128BBBC828F3cE6`, tx `0x5e2851568ef1a13c178e925e6c395b2388d3b34b941a82b9dcff4d739914393e`.
 - Live `register_study` succeeded: tx `0x6cf1d79c87c64ca520c401ed0d748a19f20b69b9aa347063880bbbeeb829a720`; `get_study(1)` returned the persisted record.
 
 ## 2026-08-26 final state
 
 - Repository HEAD: `06d389e`.
-- Final deployed RepliGraph contract: `0x08173965461f16baA3293e3bB46e540447E6CD80`.
+- **HISTORICAL / SUPERSEDED:** RepliGraph contract `0x08173965461f16baA3293e3bB46e540447E6CD80`.
 - Frozen contract SHA-256: `56B7CBD5ECDE225DEE146B5D02D8FAE305DADAD99C53205A622BE6A2C8148AB8`.
 - Production frontend: https://repligraph.vercel.app.
 - Latest live reads confirm semantic search for QUESTION, METHOD, and CONCLUSION and latest-only deduplication. The final proof still lacks a distinct target study and signed claim/adjudication because the CLI keystore cannot be unlocked in a new shell without the user's password.

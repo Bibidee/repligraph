@@ -4,12 +4,12 @@
 
 ## Current checkpoint
 
-- **Phase:** Final provenance and failure-classification hardening.
-- **Last completed work:** Production contract and frontend are deployed; fail-closed adjudication was verified; this pass adds evidence digest verification and retryable/integrity status classification without weakening consensus.
+- **Status:** COMPLETE EXCEPT EXTERNAL STUDIONET NONDETERMINISTIC-RUNTIME LIMITATION.
+- **Last completed work:** The frozen source-parity contract and final frontend are deployed. The final lifecycle verified both registrations, three-field semantic retrieval, claim finality, authoritative `REVIEW_RETRYABLE` handling, retry UX, and no false edge creation.
 - **StudioNet address:** `0xE3487c2CCA45cc3F5C48e54f5c27cac1AEA6c848`.
 - **Frontend URL:** `https://repligraph.vercel.app` (latest deployment `web-qf5wmarj7-bibidees-projects.vercel.app`).
 - **Current source hash:** `40A9C1BC4BDBC1398F2F70D46773E3F0DF310627552FE0D1E9B7BDF8749D3015`; deployment tx `0x3eb9bff8aae7e78c22c9784d229c37dcdfda509a9a8757515197c36f938f88e2`.
-- **Current unresolved item:** validate and redeploy the changed contract once, then run the clean distinct-study lifecycle. Existing StudioNet tracing is unavailable.
+- **Only remaining limitation:** StudioNet nondeterministic evaluation returned `REVIEW_RETRYABLE`; this is an external runtime limitation, not a pending repository deployment task.
 - **Final lifecycle:** source tx `0x489de52bbe007195ad1e9f15edf8f698ceefb8197129f560cf5666eb629cb65a`, target tx `0x6f87253afa3ceb4135efff608343d6c4fbc5f494df91f96e715fa7e6fdf1fdf4`, claim tx `0x112ca6419b4ee21b09e236383ccf55c8fe2116790b3bf7e52a69c167eeea9281`, adjudication tx `0xcdb4523bb8cdc47255db332629449a5f5d9b03737b341a27cc6661645915fe2c`. QUESTION, METHOD, and CONCLUSION searches returned target study 2. Claim 1 is `REVIEW_RETRYABLE`, outcome class `REVIEW_RETRYABLE`, final relation empty, rationale `Nondeterministic evaluation failed.` No edge exists. Production renders the retry action.
 
 ## Immediate implementation sequence
@@ -158,9 +158,9 @@ Copy this block for every meaningful work unit:
 - Resume with completed npm dependencies, run `typecheck`, `lint`, and `build`, then inspect the local GenLayer CLI account and validate/deploy the contract where the toolchain permits.
 ## Verification handoff — 2026-08-26
 
-StudioNet verification is complete. The official GenLayer CLI v0.39.2 is installed locally at `tools/genlayer-cli`; the unlocked `faultline-dev` account was used. The corrected contract is `0x7cd6075d0989F2b8640beeD28128BBBC828F3cE6` (deployment tx `0x5e2851568ef1a13c178e925e6c395b2388d3b34b941a82b9dcff4d739914393e`). A real `register_study` write succeeded with tx `0x6cf1d79c87c64ca520c401ed0d748a19f20b69b9aa347063880bbbeeb829a720`, and `get_study(1)` read back the stored record. Frontend `.env.local` points at this deployment.
+**HISTORICAL / SUPERSEDED:** StudioNet verification used contract `0x7cd6075d0989F2b8640beeD28128BBBC828F3cE6` (deployment tx `0x5e2851568ef1a13c178e925e6c395b2388d3b34b941a82b9dcff4d739914393e`). A real `register_study` write succeeded with tx `0x6cf1d79c87c64ca520c401ed0d748a19f20b69b9aa347063880bbbeeb829a720`, and `get_study(1)` read back the stored record.
 
-Final workflow: deployed `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3` with deployment tx `0xb2724e214bc487224c8ab21afa8d3589a058088ce681f9b08efc21a8ca7d62b4`. Studies 1 and 2 are readable, semantic search returns study 2, claim 1 finalized, and adjudication tx `0xb0d89d50483cdebea815a40c28070ac10ddcc803b4315aa5a1863b2814afcb86` produced `EDGE_ACCEPTED` with `DIRECT_REPLICATION`. Python is unavailable, so Python tests remain not run.
+**HISTORICAL / SUPERSEDED accepted-edge proof:** contract `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3`, deployment tx `0xb2724e214bc487224c8ab21afa8d3589a058088ce681f9b08efc21a8ca7d62b4`. Studies 1 and 2 were readable, semantic search returned study 2, and adjudication tx `0xb0d89d50483cdebea815a40c28070ac10ddcc803b4315aa5a1863b2814afcb86` produced `EDGE_ACCEPTED`. This does not constitute an accepted-edge proof for the current contract.
 ## 2026-08-26 closure pass
 
 Latest local commit: `d7f53a8`.
@@ -178,7 +178,7 @@ Historical pre-deployment checkpoint. It was superseded by the final deployment 
 
 Focused pre-deployment correction: `search_related` scope bug fixed and regression guards added. Frozen source hash: `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
 
-Final deployment completed on StudioNet: `0x08173965461f16baA3293e3bB46e540447E6CD80`, tx `0x0eb1349edcb0567630d023c286534aa2c72913ada156a2b19ea0ce7a6fecaa4f`. Production frontend now points to this address at https://repligraph.vercel.app.
+**HISTORICAL / SUPERSEDED deployment:** `0x08173965461f16baA3293e3bB46e540447E6CD80`, tx `0x0eb1349edcb0567630d023c286534aa2c72913ada156a2b19ea0ce7a6fecaa4f`.
 
 Accepted-path closure attempt: factual evidence was published at `https://repligraph.vercel.app/evidence/direct-replication.txt`. Claim 4 finalized, but adjudication also returned `0` and stored `INSUFFICIENT`. No `EDGE_ACCEPTED` result is recorded. This is preserved as fail-closed behavior, not presented as an accepted-edge proof.
 
