@@ -13,7 +13,7 @@
 
 ## Verification record
 
-- Python: 95 passed.
+- Python: latest available run had 95 passed; Python is not discoverable in the current shell, so it was not rerun in this pass.
 - Frontend unit tests: 53 passed.
 - TypeScript: passed.
 - ESLint: passed.
