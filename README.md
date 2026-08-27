@@ -43,7 +43,9 @@ npm run build
 npm audit
 ```
 
-Final results: 95 Python tests passed, 38 frontend tests passed, typecheck passed, lint passed, production build passed, and npm reported zero vulnerabilities.
+Final results: 95 Python tests passed, 41 frontend tests passed, typecheck passed, lint passed, production build passed, and npm reported zero vulnerabilities.
+
+The frontend post-write flows resolve newly created studies and claims by scanning authoritative post-finalization state and matching the submitted payload. They never navigate using a guessed count plus one. Homepage study and edge data use bounded 50-record pagination.
 
 ## Live lifecycle proof
 

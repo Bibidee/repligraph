@@ -8,7 +8,7 @@
 - StudioNet contract: `0xc09430347945C4311A539a3D91D0bB36a0DbDE2D`.
 - Deployment transaction: `0x87838308bfba26d3e12412f1836fa8b9c9a7dc3caff9f6b81a6988b9ec2da079`.
 - Frozen contract SHA-256: `1154D159BE50BB16D3F2980AC30C0421FF3C6B8A13E1E8FE1834B159998AA976`.
-- Validation: 95 Python tests, 38 frontend tests, typecheck, lint, production build, schema retrieval, npm audit, and responsive route QA passed.
+- Validation: 95 Python tests, 41 frontend tests, typecheck, lint, production build, schema retrieval, npm audit, and responsive route QA passed.
 - Live lifecycle: study 1 and study 2 registered; all three semantic fields returned study 2; claim 1 finalized; adjudication reached validator majority agreement; claim 1 is `EDGE_ACCEPTED`; edge 1 is `DIRECT_REPLICATION`.
 - Remaining repository-controlled critical or high issues: none.
 
@@ -28,6 +28,7 @@ Semantic retrieval uses independent QUESTION, METHOD, and CONCLUSION stores. Sim
 - Evidence fetched during adjudication is delimited and treated as untrusted content.
 - Relation claims and accepted edges use separate identifiers.
 - No CI workflow is used for this release; validation was executed locally and against StudioNet.
+- Frontend-only corrective pass at commit 71eea0d removes count-plus-one ID guesses. New study and claim records are resolved from post-finalization authoritative reads with full payload matching and explicit ambiguity errors. Homepage pagination is bounded by get_counts.
 
 ## Final live proof
 

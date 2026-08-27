@@ -45,3 +45,7 @@ Added Direct Mode regression coverage, including corrected-study historical vect
 Deployed the exact frozen contract source to StudioNet, retrieved its schema, executed the full live lifecycle, and independently read the final accepted relation and edge. The former external nondeterministic-runtime blocker is resolved for this release.
 
 Earlier contract addresses, hashes, and `REVIEW_RETRYABLE` results are superseded.
+
+### Frontend authoritative ID race fix
+
+Commit 71eea0d changes only the frontend. Study registration now snapshots and rereads the complete bounded study ledger, then requires one new record matching the connected account and every submitted field. Relation creation scans the bounded post-write claim range and requires one exact claimant and payload match. Multiple matches or no match fail visibly. The homepage now paginates studies and accepted edges from get_counts, and receipts label rationale as DECISION RATIONALE. Contract source, address, SHA-256, deployment, and accepted-edge proof are unchanged.
