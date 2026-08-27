@@ -1,6 +1,24 @@
 # RepliGraph
 
-RepliGraph is a semantic replication graph for public scientific experiments. It settles an immutable relation edge between two public study versions using GenLayer consensus; semantic vectors provide bounded context and never decide truth by themselves.
+RepliGraph is a semantic replication graph for public scientific experiments. Researchers register immutable study versions, discover related work through separate question, method, and conclusion memories, and ask GenLayer validators to settle a typed relation between two pinned study versions.
+
+Semantic similarity proposes candidates. It never decides scientific truth. Accepted edges are created only after validator consensus.
+
+## Production release
+
+- Application: [repligraph.vercel.app](https://repligraph.vercel.app)
+- Network: GenLayer StudioNet, chain ID `61999`
+- Contract: `0xc09430347945C4311A539a3D91D0bB36a0DbDE2D`
+- Deployment transaction: `0x87838308bfba26d3e12412f1836fa8b9c9a7dc3caff9f6b81a6988b9ec2da079`
+- Frozen contract SHA-256: `1154D159BE50BB16D3F2980AC30C0421FF3C6B8A13E1E8FE1834B159998AA976`
+
+The final live proof registered studies 1 and 2, found study 2 through QUESTION, METHOD, and CONCLUSION search, created claim 1, and finalized adjudication with validator majority agreement. Claim 1 is `EDGE_ACCEPTED`; edge 1 is `DIRECT_REPLICATION`.
+
+## Architecture
+
+`contracts/repligraph.py` is the only stateful backend. It owns study registrations and corrections, immutable versions, relation claims, accepted edges, adjudication receipts, and three independent VecDB stores. The Next.js application in `apps/web` reads StudioNet directly and sends writes through the user's injected wallet. There is no application database, custodial signer, or hidden API.
+
+The contract treats fetched evidence as untrusted data, validates bounded consensus envelopes, pins relation claims to exact study versions, and preserves historical vectors while returning only current versions from latest-only semantic search.
 
 ## Local development
 
@@ -11,44 +29,31 @@ Copy-Item .env.example .env.local
 npm run dev
 ```
 
-Set `NEXT_PUBLIC_REPLIGRAPH_CONTRACT` to a deployed StudioNet contract before expecting live reads. Without it, the app intentionally shows a truthful unavailable state.
+Set `NEXT_PUBLIC_REPLIGRAPH_CONTRACT` in `.env.local` to the deployed StudioNet address above.
 
-## Contract
-
-`contracts/repligraph.py` is the single deployable Intelligent Contract. It owns studies, immutable version corrections, relation claims, accepted edges, consensus receipts, and three-field semantic memory. Deployment requires the GenLayer CLI and a funded StudioNet development account; no application-user private key is used by the frontend.
-
-## Final StudioNet release
-
-Status: **COMPLETE EXCEPT EXTERNAL STUDIONET NONDETERMINISTIC-RUNTIME LIMITATION**
-
-- Contract: `0xE3487c2CCA45cc3F5C48e54f5c27cac1AEA6c848`
-- Deployment transaction: `0x3eb9bff8aae7e78c22c9784d229c37dcdfda509a9a8757515197c36f938f88e2`
-- Source SHA-256: `40A9C1BC4BDBC1398F2F70D46773E3F0DF310627552FE0D1E9B7BDF8749D3015`
-- Production: [repligraph.vercel.app](https://repligraph.vercel.app)
-
-Validation:
-
-- 9 deterministic/domain/source tests passed
-- TypeScript typecheck passed
-- ESLint passed
-- production build passed
-- contract schema retrieval passed
-- full GenLayer Direct Mode suite was unavailable in the current environment
-
-The final lifecycle registered source study 1 and target study 2, returned target 2 from QUESTION, METHOD, and CONCLUSION searches, and finalized claim 1 and its adjudication transaction. The authoritative result is `REVIEW_RETRYABLE` with rationale `Nondeterministic evaluation failed.` No edge was created, and production exposes `Retry adjudication`.
-
-StudioNet nondeterministic evaluation was unavailable during final adjudication. RepliGraph therefore failed safely and created no relation edge. No accepted-edge result is claimed without validator confirmation.
-
-## Local verification
+## Verification
 
 ```powershell
+python -m pytest -q
 cd apps/web
+npm test
 npm run typecheck
 npm run lint
 npm run build
+npm audit
 ```
 
-## Historical deployments
+Final results: 95 Python tests passed, 38 frontend tests passed, typecheck passed, lint passed, production build passed, and npm reported zero vulnerabilities.
 
-- **SUPERSEDED:** `0x634a6B4eA931fE258cb81ef471280F14c0ea24A3`, tx `0xb2724e214bc487224c8ab21afa8d3589a058088ce681f9b08efc21a8ca7d62b4`.
-- **HISTORICAL:** contract source at commit `c797825`, SHA-256 `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
+## Live lifecycle proof
+
+- Register study 1: `0x60f5a6a39e438ab70bcf4a7ecd9730b4191d2564791d8c5e177cce61fcd89f0b`
+- Register study 2: `0x335ee04bf1b1e714bdb554d69b4a7bf2a75b360b0bc3854541737d48408980f6`
+- Claim relation 1: `0xd6a3c57018dea767c8dea930bd7b2d0ac672b705d01b9525aaf66e0dccf7cfd3`
+- Adjudicate relation 1: `0xd7855702e0f6a7cb8d0d6d3b5f8f43ffe6226fcc4ca8e08e892d2c031a58c19f`
+
+The adjudication receipt is `FINALIZED`, execution is `SUCCESS`, and the consensus result is `MAJORITY_AGREE`. Authoritative reads return claim 1 as `EDGE_ACCEPTED` and edge 1 as `DIRECT_REPLICATION`.
+
+## Historical note
+
+Earlier StudioNet addresses and retryable adjudication results are superseded by this source-parity deployment and accepted-edge proof.
