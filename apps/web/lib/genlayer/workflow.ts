@@ -40,4 +40,18 @@ export function pageOffsets(total:number,pageSize=50,maxPages=100):number[]{
   return Array.from({length:pages},(_,index)=>index*pageSize);
 }
 
+export const MAX_POST_WRITE_CLAIM_SCAN=100;
+export const CLAIM_SCAN_BATCH_SIZE=10;
+export function postWriteClaimIds(beforeCount:number,afterCount:number,max=MAX_POST_WRITE_CLAIM_SCAN):number[]{
+  const range=afterCount-beforeCount;
+  if(range<0||range>max)throw new Error('Your transaction finalized, but too many concurrent claims were created to resolve this claim safely. Open the finalized transaction or retry the lookup.');
+  return Array.from({length:range},(_,index)=>beforeCount+index+1);
+}
+export function chunks<T>(items:T[],size=CLAIM_SCAN_BATCH_SIZE):T[][]{return Array.from({length:Math.ceil(items.length/size)},(_,index)=>items.slice(index*size,index*size+size))}
+export async function paginateUntilShort<T>(fetchPage:(offset:number,limit:number)=>Promise<T[]>,pageSize=50,maxPages=100):Promise<{records:T[];truncated:boolean;total:number}>{
+  const records:T[]=[];
+  for(let page=0;page<maxPages;page++){const batch=await fetchPage(page*pageSize,pageSize);records.push(...batch);if(batch.length<pageSize)return {records,truncated:false,total:records.length}}
+  return {records,truncated:true,total:records.length};
+}
+
 export type WriteStage='AWAITING_SIGNATURE'|'SUBMITTED'|'CONSENSUS_PENDING'|'FINALIZED'|'GENVM_INSPECTION'|'AUTHORITATIVE_REREAD'|'SUCCESS';

@@ -5,7 +5,7 @@ import {Chrome} from '../../../components/chrome';
 import {useWallet} from '../../../components/wallet-provider';
 import {writeContract} from '../../../lib/genlayer/contract';
 import {getCounts,getRelation,listAllStudies} from '../../../lib/genlayer/data-source';
-import {resolveNewClaim} from '../../../lib/genlayer/workflow';
+import {chunks,postWriteClaimIds,resolveNewClaim} from '../../../lib/genlayer/workflow';
 import type {Study,RelationClaim} from '../../../lib/genlayer/schema';
 
 function Form(){
@@ -19,8 +19,8 @@ function Form(){
     await writeContract(w.account,'claim_relation',[Number(source),Number(target),relation,evidence,digest]);
     setState('AUTHORITATIVE_REREAD');
     const after=(await getCounts()).claim_count;
-    const ids=Array.from({length:Math.max(0,after-before)},(_,index)=>before+index+1);
-    const candidates=(await Promise.all(ids.map(id=>getRelation(String(id))))).filter((claim):claim is RelationClaim=>claim!==null);
+    const ids=postWriteClaimIds(before,after);
+    const candidates=(await Promise.all(chunks(ids).map(async batch=>(await Promise.all(batch.map(id=>getRelation(String(id))))).filter((claim):claim is RelationClaim=>claim!==null)))).flat();
     const claim=resolveNewClaim({candidates,claimant:w.account,expected:{source_id:Number(source),target_id:Number(target),claimed_relation:relation,evidence_url:evidence,evidence_digest:digest}});
     if(!claim)throw new Error('Finalized claim could not be resolved authoritatively.');
     setState('SUCCESS');router.push('/relations/'+claim.claim_id);
