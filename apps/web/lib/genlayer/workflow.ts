@@ -1,0 +1,4 @@
+import type {RelationClaim,Study} from './schema';
+export function newestStudy(before:Study[],after:Study[],registrant:string){const known=new Set(before.map(s=>String(s.study_id)));const matches=after.filter(s=>!known.has(String(s.study_id))&&s.registrant.toLowerCase()===registrant.toLowerCase());return matches.sort((a,b)=>Number(b.study_id)-Number(a.study_id))[0]??null}
+export function newestClaim(before:RelationClaim[],after:RelationClaim[],claimant:string){const known=new Set(before.map(c=>String(c.claim_id)));const matches=after.filter(c=>!known.has(String(c.claim_id))&&c.claimant.toLowerCase()===claimant.toLowerCase());return matches.sort((a,b)=>Number(b.claim_id)-Number(a.claim_id))[0]??null}
+export type WriteStage='AWAITING_SIGNATURE'|'SUBMITTED'|'CONSENSUS_PENDING'|'FINALIZED'|'GENVM_INSPECTION'|'AUTHORITATIVE_REREAD'|'SUCCESS';
