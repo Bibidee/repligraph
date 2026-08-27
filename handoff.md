@@ -6,10 +6,11 @@
 
 - **Phase:** Final provenance and failure-classification hardening.
 - **Last completed work:** Production contract and frontend are deployed; fail-closed adjudication was verified; this pass adds evidence digest verification and retryable/integrity status classification without weakening consensus.
-- **StudioNet address:** `0xcea527811266aEeb5F4B793B28A81ae8d256f5c7`.
-- **Frontend URL:** `https://repligraph.vercel.app` (latest deployment `web-kbu8rd298-bibidees-projects.vercel.app`).
-- **Current source hash:** `49B391CF8E3FBB5F791E47AFE4E4D31A537BEDF1D7218DA7092898AB9FE3901E`; deployment tx `0x2eefe1936807b3500f7f32a3df04d37e88650e10fbe5bdefef8832b56db038b5`.
+- **StudioNet address:** `0xE3487c2CCA45cc3F5C48e54f5c27cac1AEA6c848`.
+- **Frontend URL:** `https://repligraph.vercel.app` (latest deployment `web-qf5wmarj7-bibidees-projects.vercel.app`).
+- **Current source hash:** `40A9C1BC4BDBC1398F2F70D46773E3F0DF310627552FE0D1E9B7BDF8749D3015`; deployment tx `0x3eb9bff8aae7e78c22c9784d229c37dcdfda509a9a8757515197c36f938f88e2`.
 - **Current unresolved item:** validate and redeploy the changed contract once, then run the clean distinct-study lifecycle. Existing StudioNet tracing is unavailable.
+- **Final lifecycle:** source tx `0x489de52bbe007195ad1e9f15edf8f698ceefb8197129f560cf5666eb629cb65a`, target tx `0x6f87253afa3ceb4135efff608343d6c4fbc5f494df91f96e715fa7e6fdf1fdf4`, claim tx `0x112ca6419b4ee21b09e236383ccf55c8fe2116790b3bf7e52a69c167eeea9281`, adjudication tx `0xcdb4523bb8cdc47255db332629449a5f5d9b03737b341a27cc6661645915fe2c`. QUESTION, METHOD, and CONCLUSION searches returned target study 2. Claim 1 is `REVIEW_RETRYABLE`, outcome class `REVIEW_RETRYABLE`, final relation empty, rationale `Nondeterministic evaluation failed.` No edge exists. Production renders the retry action.
 
 ## Immediate implementation sequence
 

@@ -23,15 +23,16 @@ an immutable relation edge between two public study/protocol nodes
 
 ## CURRENT VERIFIED STATE
 
-- Repository HEAD: `5648a7d48e799f38e7138ef5af19a124d11e80f5`.
+- Repository HEAD: `4e4b63b90f2a19e1f4a651fa3c749f01d4c2c83e` before final documentation reconciliation.
 - Architecture: one GenLayer Intelligent Contract plus one directly hosted frontend; no backend or database.
-- Deployed contract: `0xcea527811266aEeb5F4B793B28A81ae8d256f5c7`.
-- Current source hash: `49B391CF8E3FBB5F791E47AFE4E4D31A537BEDF1D7218DA7092898AB9FE3901E`; deployment transaction `0x2eefe1936807b3500f7f32a3df04d37e88650e10fbe5bdefef8832b56db038b5` finalized successfully.
-- Production frontend: `https://repligraph.vercel.app` (latest Vercel deployment `web-kbu8rd298-bibidees-projects.vercel.app`).
+- Deployed contract: `0xE3487c2CCA45cc3F5C48e54f5c27cac1AEA6c848`.
+- Current source hash: `40A9C1BC4BDBC1398F2F70D46773E3F0DF310627552FE0D1E9B7BDF8749D3015`; deployment transaction `0x3eb9bff8aae7e78c22c9784d229c37dcdfda509a9a8757515197c36f938f88e2` finalized successfully.
+- Production frontend: `https://repligraph.vercel.app` (latest Vercel deployment `web-qf5wmarj7-bibidees-projects.vercel.app`).
 - Existing fail-closed adjudication: claim `1`, adjudication tx `0xc43b46131110fddf43cdbfc77f3f0ac7c1f7be4c04a9363852e2d6d399be226d`, final status `INSUFFICIENT`, no edge.
 - This pass adds cryptographic evidence-body verification and distinguishes integrity failures from retryable retrieval/model failures. The new source hash is recorded after validation.
 - Python/Direct Mode availability must be verified in the current environment. StudioNet transaction tracing remains unavailable because `gen_dbg_traceTransaction` is not exposed.
 - Exact next unresolved item: validate the new source locally, recompute hash, then deploy once and run the clean lifecycle if StudioNet validator infrastructure permits.
+- Final live lifecycle on the current deployment registered source study 1 and target study 2, verified all three semantic searches, and finalized claim 1. Adjudication tx `0xcdb4523bb8cdc47255db332629449a5f5d9b03737b341a27cc6661645915fe2c` produced `REVIEW_RETRYABLE` with no final relation and no edge because StudioNet nondeterministic evaluation failed. The hosted relation page exposes `Retry adjudication`.
 
 ## Non-negotiable product boundary
 

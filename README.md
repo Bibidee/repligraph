@@ -32,6 +32,6 @@ Current release status: deployed and serving from StudioNet. Python integration 
 
 Pre-deployment correction at commit `c797825`: `search_related` now initializes its deduplication set in its own scope and the contract SHA-256 is `96E83C7EF4DB0FDEA6CC8EE78A29B49458699600A9EE400DDA21D33192EF67E1`.
 
-Final StudioNet deployment: `0xcea527811266aEeb5F4B793B28A81ae8d256f5c7`, deployment transaction `0x2eefe1936807b3500f7f32a3df04d37e88650e10fbe5bdefef8832b56db038b5`. The deployment receipt is FINALIZED with SUCCESS and the deployed source hash is `49B391CF8E3FBB5F791E47AFE4E4D31A537BEDF1D7218DA7092898AB9FE3901E`. Production is served at [repligraph.vercel.app](https://repligraph.vercel.app).
+Final StudioNet deployment: `0xE3487c2CCA45cc3F5C48e54f5c27cac1AEA6c848`, deployment transaction `0x3eb9bff8aae7e78c22c9784d229c37dcdfda509a9a8757515197c36f938f88e2`. The deployment receipt is FINALIZED with SUCCESS and the deployed source hash is `40A9C1BC4BDBC1398F2F70D46773E3F0DF310627552FE0D1E9B7BDF8749D3015`. Production is served at [repligraph.vercel.app](https://repligraph.vercel.app). The final live claim remains `REVIEW_RETRYABLE` because StudioNet nondeterministic evaluation was unavailable; no edge was created.
 
 Final accepted-path proof status: pending. Claims using raw GitHub and production-hosted factual evidence both finalized fail-closed as `INSUFFICIENT`; no accepted edge is claimed without validator confirmation.
