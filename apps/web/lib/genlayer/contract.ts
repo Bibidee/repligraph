@@ -32,6 +32,6 @@ export async function writeContract(account:string,functionName:string,args:unkn
   throw new TransactionFinalityPendingError(String(hash));
  }
  const execution=inspectExecution(receipt);
- if(!execution.ok)throw new Error(execution.kind==='GENVM_ROLLBACK'?'Finalized transaction rolled back in GenVM.':'Consensus is not complete.');
- return {hash,receipt};
+ if(!execution.ok&&execution.kind==='GENVM_ROLLBACK')throw new Error('Finalized transaction rolled back in GenVM.');
+ return {hash,receipt,execution};
 }
