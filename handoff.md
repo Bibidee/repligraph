@@ -13,7 +13,7 @@
 ## Verification record
 
 - Python: 95 passed.
-- Frontend unit tests: 38 passed.
+- Frontend unit tests: 44 passed.
 - TypeScript: passed.
 - ESLint: passed.
 - Next.js production build: passed.
@@ -49,3 +49,7 @@ Earlier contract addresses, hashes, and `REVIEW_RETRYABLE` results are supersede
 ### Frontend authoritative ID race fix
 
 Commit 71eea0d changes only the frontend. Study registration now snapshots and rereads the complete bounded study ledger, then requires one new record matching the connected account and every submitted field. Relation creation scans the bounded post-write claim range and requires one exact claimant and payload match. Multiple matches or no match fail visibly. The homepage now paginates studies and accepted edges from get_counts, and receipts label rationale as DECISION RATIONALE. Contract source, address, SHA-256, deployment, and accepted-edge proof are unchanged.
+
+### Absolute frontend closure
+
+Commit bba8ccd keeps the contract frozen and adds complete bounded study-specific edge pagination for receipts and relation pages. Edge lookup stops after a short page or fails after 100 full pages. Post-write claim resolution rejects ranges above 100 and reads allowed candidates in batches of 10. Global graph pagination remains capped at 100 pages and the homepage explicitly discloses truncation above 5,000 records. Production deployment is dpl_DKt3suB5UH6PbUs5Wvs6yuZQn1fu.
