@@ -1,3 +1,12 @@
-import {Chrome} from '../components/chrome';import {GraphExplorer} from '../components/graph-explorer';import {listEdgesGlobal,listStudies} from '../lib/genlayer/data-source';import type {Edge,Study} from '../lib/genlayer/schema';
+import {Chrome} from '../components/chrome';
+import {GraphExplorer} from '../components/graph-explorer';
+import {listAllEdgesGlobal,listAllStudies} from '../lib/genlayer/data-source';
+import type {Edge,Study} from '../lib/genlayer/schema';
+
 export const dynamic='force-dynamic';
-export default async function Home(){let studies:Study[]=[];let edges:Edge[]=[];let error='';try{[studies,edges]=await Promise.all([listStudies(),listEdgesGlobal()])}catch(e){error=e instanceof Error?e.message:'The graph is unavailable.'}return <main><Chrome/><div className="page-shell"><p className="eyebrow">Live StudioNet provenance</p><h1 className="page-title">Research graph</h1><p className="muted">Immutable study versions and validator-accepted relations. Semantic proximity retrieves context, never truth.</p>{error?<section className="graph-layout mt-8"><aside className="study-ledger"><p className="eyebrow">Studies</p><p className="muted mt-3">Ledger unavailable.</p></aside><div className="graph-canvas graph-paper"><div className="panel status-box"><strong>Live graph unavailable</strong><p>{error}</p></div></div></section>:<GraphExplorer studies={studies} edges={edges}/>}</div></main>}
+
+export default async function Home(){
+  let studies:Study[]=[],edges:Edge[]=[],error='';
+  try{[studies,edges]=await Promise.all([listAllStudies(),listAllEdgesGlobal()])}catch(e){error=e instanceof Error?e.message:'The graph is unavailable.'}
+  return <main><Chrome/><div className="page-shell"><p className="eyebrow">Live StudioNet provenance</p><h1 className="page-title">Research graph</h1><p className="muted">Immutable study versions and validator-accepted relations. Semantic proximity retrieves context, never truth.</p>{error?<section className="graph-layout mt-8"><aside className="study-ledger"><p className="eyebrow">Studies</p><p className="muted mt-3">Ledger unavailable.</p></aside><div className="graph-canvas graph-paper"><div className="panel status-box"><strong>Live graph unavailable</strong><p>{error}</p></div></div></section>:<GraphExplorer studies={studies} edges={edges}/>}</div></main>
+}
