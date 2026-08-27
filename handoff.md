@@ -7,17 +7,18 @@
 - StudioNet contract: `0xc09430347945C4311A539a3D91D0bB36a0DbDE2D`.
 - Deployment transaction: `0x87838308bfba26d3e12412f1836fa8b9c9a7dc3caff9f6b81a6988b9ec2da079`.
 - Frozen contract SHA-256: `1154D159BE50BB16D3F2980AC30C0421FF3C6B8A13E1E8FE1834B159998AA976`.
+- Latest frontend deployment: `26Z83ja5UDBPHhHxz3nByZu4q2Zs`, generated URL `https://repligraph-qrsmku1a3-bibidees-projects.vercel.app`, public alias `https://repligraph.vercel.app`.
 - Live result: claim 1 is `EDGE_ACCEPTED`; edge 1 is `DIRECT_REPLICATION` from study 1 v1 to study 2 v1.
 - Remaining critical/high repository issues: none.
 
 ## Verification record
 
 - Python: 95 passed.
-- Frontend unit tests: 49 passed.
+- Frontend unit tests: 53 passed.
 - TypeScript: passed.
 - ESLint: passed.
 - Next.js production build: passed.
-- npm audit: zero vulnerabilities.
+- npm audit: offline audit passed with zero vulnerabilities.
 - GenLayer schema retrieval: passed.
 - Responsive route QA: passed at 320, 375, 390, 430, 768, 1024, and 1440 pixels for all product routes.
 
@@ -52,8 +53,14 @@ Commit 71eea0d changes only the frontend. Study registration now snapshots and r
 
 ### Absolute frontend closure
 
-Commit bba8ccd keeps the contract frozen and adds complete bounded study-specific edge pagination for receipts and relation pages. Edge lookup stops after a short page or fails after 100 full pages. Post-write claim resolution rejects ranges above 100 and reads allowed candidates in batches of 10. Global graph pagination remains capped at 100 pages and the homepage explicitly discloses truncation above 5,000 records. Commit 505be7c extends the same complete lookup to study detail pages. Production deployment is dpl_BXkhYx2XNr32HRoZCkPoGjammP4R.
+Commit bba8ccd keeps the contract frozen and adds complete bounded study-specific edge pagination for receipts and relation pages. Edge lookup stops after a short page or fails after 100 full pages. Post-write claim resolution rejects ranges above 100 and reads allowed candidates in batches of 10. Global graph pagination remains capped at 100 pages and the homepage explicitly discloses truncation above 5,000 records. Commit 505be7c extends the same complete lookup to study detail pages. Historical deployment: dpl_BXkhYx2XNr32HRoZCkPoGjammP4R.
 
 ### Wallet session rehydration
 
-Commit a07cd51 keeps the contract frozen and restores an already-authorized wallet on page refresh by reading eth_accounts and eth_chainId silently. No eth_requestAccounts call is made during hydration. Explicit connect and disconnect flows, all wallet event listeners, and wrong-network reporting remain unchanged. Twelve wallet hydration and safety tests were added, bringing the frontend suite to 49. Production deployment is dpl_G6pjhvnoERtfrC8L5WE664wh44Lt.
+Commit a07cd51 keeps the contract frozen and restores an already-authorized wallet on page refresh by reading eth_accounts and eth_chainId silently. No eth_requestAccounts call is made during hydration. Explicit connect and disconnect flows, all wallet event listeners, and wrong-network reporting remain unchanged. Twelve wallet hydration and safety tests were added; later frontend fixes bring the current suite to 53. Historical deployment: dpl_G6pjhvnoERtfrC8L5WE664wh44Lt.
+
+### Final smoke-test and receipt normalization
+
+Commit 721480e keeps the contract and frozen source hash unchanged. Registration, relation submission, and correction actions now use explicit styled submit controls. Finalized writes preserve the transaction hash and receipt. Execution inspection accepts the top-level GenVM success field and StudioNet leader receipt fallback, accepts a single leader receipt or an array, and distinguishes explicit rollback, timeout, and nondeterministic disagreement from unavailable evidence. Unavailable evidence is returned for authoritative reread rather than mislabeled as consensus incomplete.
+
+The frontend suite now has 53 passing tests. Typecheck, ESLint, Next production build, and offline npm audit pass. The latest production deployment is Vercel `26Z83ja5UDBPHhHxz3nByZu4q2Zs`, generated URL `https://repligraph-qrsmku1a3-bibidees-projects.vercel.app`, with the public alias `https://repligraph.vercel.app`. All seven public routes returned HTTP 200, and the receipt page still exposed the historical accepted edge, direct replication relation, and frozen contract address. Python is not discoverable in the current shell, so the previously recorded 95 Python tests are the latest Python result.
